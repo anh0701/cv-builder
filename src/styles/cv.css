@@ -1,0 +1,415 @@
+.cv-input {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: white;
+  color: #263b30;
+  outline: none;
+}
+
+
+.cv-input:focus {
+  border-color: #52745b;
+  box-shadow: 0 0 0 2px rgb(82 116 91 / 12%);
+}
+
+.cv-input:disabled {
+  cursor: not-allowed;
+  background: #f3f4f6;
+  color: #6b7280;
+}
+
+.cv-add,
+.cv-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: 8px;
+  padding: 7px 10px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.cv-add {
+  background: #e9f0e8;
+  color: #355b43;
+}
+
+.cv-add:hover {
+  background: #dce8db;
+}
+
+.cv-remove {
+  color: #b42318;
+}
+
+.cv-remove:hover {
+  background: #fef0ee;
+}
+
+.cv-form-item {
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e5e7eb;
+}
+
+/* CV page */
+.cv-paper {
+  width: 100%;
+  max-width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 16mm 15mm;
+  background: white;
+  color: #222;
+  box-shadow: 0 4px 24px rgb(31 41 35 / 10%);
+  font-family: Arial, "Noto Sans", sans-serif;
+  font-size: 10pt;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.cv-paper *,
+.cv-paper *::before,
+.cv-paper *::after {
+  box-sizing: border-box;
+}
+
+.cv-header {
+  padding-bottom: 14px;
+  border-bottom: 2px solid #355b43;
+}
+
+.cv-header h1 {
+  margin: 0;
+  font-size: 25pt;
+  font-weight: 700;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.cv-contact-label {
+  margin-top: 8px;
+  color: #52745b;
+  font-size: 8pt;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cv-contact {
+  margin-top: 4px;
+  color: #4b5563;
+  font-size: 8.5pt;
+  overflow-wrap: anywhere;
+}
+
+.cv-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.cv-links a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cv-section {
+  margin-top: 17px;
+}
+
+.cv-section-title {
+  margin: 0 0 9px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid #d5ddd4;
+  color: #355b43;
+  font-size: 11pt;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cv-entry {
+  margin-top: 10px;
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+.cv-entry-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cv-entry-heading strong {
+  min-width: 0;
+  font-weight: 700;
+}
+
+.cv-entry-heading span {
+  flex-shrink: 0;
+  color: #5b635c;
+  font-size: 8.5pt;
+  text-align: right;
+}
+
+.cv-subheading {
+  margin-top: 2px;
+  color: #4d6653;
+  font-weight: 600;
+}
+
+.cv-paragraph {
+  margin-top: 5px;
+}
+
+.cv-skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 20px;
+  margin: 0;
+  list-style: disc;
+}
+
+.cv-skill-list li {
+  display: list-item;
+}
+
+/* Markdown content */
+.cv-markdown {
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+}
+
+.cv-md-paragraph {
+  margin: 3px 0;
+  white-space: pre-wrap;
+}
+
+.cv-md-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 3px 0;
+  break-inside: avoid;
+}
+
+.cv-md-bullet>span:last-child {
+  min-width: 0;
+  flex: 1;
+}
+
+.cv-md-marker {
+  flex: 0 0 10px;
+}
+
+.cv-md-heading {
+  margin-top: 8px;
+  margin-bottom: 3px;
+  font-weight: 700;
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+.cv-md-heading-1 {
+  font-size: 11pt;
+}
+
+.cv-md-heading-2 {
+  font-size: 10pt;
+}
+
+.cv-md-heading-3 {
+  font-size: 9.5pt;
+}
+
+.cv-md-space {
+  height: 4px;
+}
+
+.cv-markdown code {
+  font-family: monospace;
+  font-size: 0.95em;
+}
+
+.cv-empty {
+  margin-top: 32px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+/* Modern template */
+.cv-modern .cv-header {
+  padding: 18px;
+  border: 0;
+  border-left: 5px solid #52745b;
+  background: #f1f5ef;
+}
+
+.cv-modern .cv-header h1 {
+  color: #294b35;
+}
+
+.cv-modern .cv-section-title {
+  padding: 2px 0 2px 9px;
+  border: 0;
+  border-left: 3px solid #52745b;
+}
+
+.cv-modern .cv-entry {
+  margin-top: 12px;
+}
+
+.cv-summary {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.cv-summary p {
+  margin: 0 0 8px;
+  padding: 0;
+  text-indent: 1.5em;
+}
+
+.cv-summary p:last-child {
+  margin-bottom: 0;
+}
+
+.cv-input-current {
+  color: transparent;
+  cursor: not-allowed;
+}
+
+.cv-month-current {
+  position: absolute;
+  inset: 6px 12px 0;
+  display: flex;
+  align-items: center;
+  color: #6b7280;
+  font-size: 14px;
+  font-weight: 400;
+  pointer-events: none;
+}
+
+/* Preview: giữ thanh điều khiển, chỉ cuộn nội dung CV */
+.preview-shell {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 32px);
+  min-height: 0;
+}
+
+.preview-toolbar {
+  flex-shrink: 0;
+}
+
+.preview-scroll-area {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 4px 16px;
+}
+
+/* css print */
+
+@page {
+  size: A4;
+  margin: 12mm 0;
+}
+
+@media print {
+
+  html,
+  body,
+  #root {
+    width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: white !important;
+  }
+
+  body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .app-layout {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .preview-shell {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .cv-paper {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 15mm !important;
+    box-shadow: none !important;
+    font-size: 9.5pt;
+  }
+
+  .cv-section {
+    break-inside: auto;
+    page-break-inside: auto;
+  }
+
+  .cv-entry {
+    margin-top: 10px;
+    break-inside: auto !important;
+    page-break-inside: auto !important;
+  }
+
+  .cv-md-bullet {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  a {
+    color: inherit !important;
+    text-decoration: none !important;
+  }
+
+  .preview-shell {
+    display: block !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .preview-toolbar {
+    display: none !important;
+  }
+
+  .preview-scroll-area {
+    display: block !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+}
