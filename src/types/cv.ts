@@ -1,5 +1,10 @@
 export type CVLanguage = 'vi' | 'en'
-export type CVTemplateId = 'classic' | 'modern'
+export type CVTemplateId =
+  | 'classic'
+  | 'modern'
+  | 'ats'
+  | 'sidebar'
+  | 'professional'
 
 export interface CVExperience {
   id: string

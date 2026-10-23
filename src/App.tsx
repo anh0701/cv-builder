@@ -2,6 +2,7 @@ import { useState } from 'react'
 
 import {
   Download,
+  Languages,
   // Languages,
 } from 'lucide-react'
 
@@ -166,7 +167,7 @@ export default function App() {
           </div>
 
           <div className="flex items-center gap-2">
-            {/* <button
+            <button
               type="button"
               onClick={() =>
                 update('language', isVi ? 'en' : 'vi')
@@ -175,7 +176,7 @@ export default function App() {
             >
               <Languages size={18} />
               {cv.language.toUpperCase()}
-            </button> */}
+            </button>
 
             <button
               type="button"

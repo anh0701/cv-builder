@@ -1,0 +1,76 @@
+.cv-professional .cv-professional-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.65fr);
+    align-items: start;
+    gap: 24px;
+    width: 100%;
+}
+
+.cv-professional .cv-professional-sidebar {
+    min-width: 0;
+    padding: 16px 13px;
+    background: #f1f5f9;
+    border-top: 3px solid #17365d;
+    overflow-wrap: anywhere;
+}
+
+.cv-professional .cv-professional-sidebar .cv-header {
+    padding: 0 0 16px;
+    border-bottom: 1px solid #cbd5e1;
+    text-align: left;
+}
+
+.cv-professional .cv-professional-sidebar .cv-header h1 {
+    font-size: 18pt;
+    overflow-wrap: anywhere;
+}
+
+.cv-professional .cv-professional-sidebar .cv-contact-label,
+.cv-professional .cv-professional-sidebar .cv-contact {
+    text-align: left;
+}
+
+.cv-professional .cv-professional-sidebar .cv-links {
+    justify-content: flex-start;
+}
+
+.cv-professional .cv-professional-main {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+@media screen and (max-width: 700px) {
+    .cv-professional .cv-professional-columns {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+}
+
+@media print {
+    .cv-professional .cv-professional-columns {
+        display: grid !important;
+        grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.65fr) !important;
+        gap: 18px;
+        align-items: start;
+    }
+}
+
+.cv-professional .cv-professional-sidebar .cv-contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.cv-professional .cv-professional-sidebar .cv-contact-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.cv-professional .cv-professional-sidebar .cv-contact-item + .cv-contact-item::before {
+    content: none;
+}
+
+.cv-professional .cv-professional-sidebar .cv-contact-item-label {
+    display: block;
+}
