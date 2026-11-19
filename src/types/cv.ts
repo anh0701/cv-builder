@@ -89,4 +89,6 @@ export interface CVLabels {
   contact: string;
   empty: string;
   template: string;
+  importJSON: string;
+  exportJSON: string;
 }

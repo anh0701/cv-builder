@@ -39,6 +39,8 @@ export const vietnameseLabels: CVLabels = {
   contact: "Liên hệ",
   empty: "Nhập thông tin ở biểu mẫu để bắt đầu tạo CV.",
   template: "Mẫu CV",
+  importJSON: "Nhập JSON",
+  exportJSON: "Xuất JSON",
 };
 
 export const englishLabels: CVLabels = {
@@ -80,4 +82,6 @@ export const englishLabels: CVLabels = {
   contact: "Contact",
   empty: "Fill in the form to start building your CV.",
   template: "CV template",
+  importJSON: "Import JSON",
+  exportJSON: "Export JSON",
 };

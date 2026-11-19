@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import {
   Download,
+  FileJson,
   Languages,
+  Upload,
   // Languages,
 } from "lucide-react";
 
@@ -138,6 +140,91 @@ export default function App() {
     window.print();
   }
 
+  function exportJSON() {
+    const data = {
+      version: 1,
+      templateId: template,
+      cv: cv,
+    };
+
+    const json = JSON.stringify(data, null, 2);
+
+    const blob = new Blob([json], { type: "application/json" });
+
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `cv-${cv.fullName || "untitled"}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    URL.revokeObjectURL(url);
+  }
+
+  async function importJSON(event: React.ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    try {
+      const text = await file.text();
+      const data = JSON.parse(text);
+
+      // Kiểm tra cấu trúc file
+      if (!data.cv || !data.templateId || !data.version) {
+        throw new Error("Invalid CV JSON");
+      }
+
+      const validTemplates: CVTemplateId[] = [
+        "classic",
+        "modern",
+        "ats",
+        "sidebar",
+        "professional",
+      ];
+
+      if (!validTemplates.includes(data.templateId)) {
+        throw new Error("Invalid template");
+      }
+
+      const importedCV = data.cv as CVData;
+
+      if (
+        !importedCV.fullName ||
+        !importedCV.language ||
+        !Array.isArray(importedCV.experiences) ||
+        !Array.isArray(importedCV.projects) ||
+        !Array.isArray(importedCV.education) ||
+        !Array.isArray(importedCV.skills)
+      ) {
+        throw new Error("Invalid CV data");
+      }
+
+      if (importedCV.language !== "vi" && importedCV.language !== "en") {
+        throw new Error("Invalid language");
+      }
+
+      // Khôi phục dữ liệu
+      setCV(importedCV);
+      setTemplate(data.templateId);
+
+      alert(
+        importedCV.language === "vi"
+          ? "Import CV thành công!"
+          : "CV imported successfully!",
+      );
+    } catch (error) {
+      console.error(error);
+
+      alert("File JSON không hợp lệ hoặc không đúng định dạng CV!");
+    } finally {
+      event.target.value = "";
+    }
+  }
+
   function handleAvatarUpload(file: File) {
     const reader = new FileReader();
 
@@ -160,7 +247,8 @@ export default function App() {
             <p className="mt-1 text-sm text-gray-500">{labels.subtitle}</p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
+            {/* Language */}
             <button
               type="button"
               onClick={() => update("language", isVi ? "en" : "vi")}
@@ -170,6 +258,30 @@ export default function App() {
               {cv.language.toUpperCase()}
             </button>
 
+            {/* Import JSON */}
+            <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-[#dce2d8] px-3 py-2 hover:bg-gray-50">
+              <Upload size={18} />
+              <span className="hidden sm:inline">{labels.importJSON}</span>
+
+              <input
+                type="file"
+                accept=".json,application/json"
+                className="hidden"
+                onChange={importJSON}
+              />
+            </label>
+
+            {/* Export JSON */}
+            <button
+              type="button"
+              onClick={exportJSON}
+              className="flex items-center gap-2 rounded-lg border border-[#dce2d8] px-3 py-2 hover:bg-gray-50"
+            >
+              <FileJson size={18} />
+              <span className="hidden sm:inline">{labels.exportJSON}</span>
+            </button>
+
+            {/* Export PDF */}
             <button
               type="button"
               onClick={exportPDF}
