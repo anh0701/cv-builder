@@ -1,0 +1,17 @@
+.cv-avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cv-avatar img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid white;
+}
+
+.professional-avatar {
+  margin-bottom: 24px;
+}

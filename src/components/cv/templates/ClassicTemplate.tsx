@@ -1,22 +1,18 @@
-import type { CVData, CVLabels } from '../../../types/cv'
-import CVContent from '../CVContent'
-import CVHeader from '../CVHeader'
+import type { CVData, CVLabels } from "../../../types/cv";
+import CVContent from "../CVContent";
+import CVHeader from "../CVHeader";
 
 interface CVTemplateProps {
-    cv: CVData
-    labels: CVLabels
-    isVi: boolean
+  cv: CVData;
+  labels: CVLabels;
+  isVi: boolean;
 }
 
-export default function ClassicTemplate({
-    cv,
-    labels,
-    isVi,
-}: CVTemplateProps) {
-    return (
-        <article className="cv-paper cv-classic">
-            <CVHeader cv={cv} labels={labels} isVi={isVi} />
-            <CVContent cv={cv} labels={labels} isVi={isVi} />
-        </article>
-    )
+export default function ClassicTemplate({ cv, labels, isVi }: CVTemplateProps) {
+  return (
+    <article className="cv-paper cv-classic">
+      <CVHeader cv={cv} labels={labels} isVi={isVi} />
+      <CVContent cv={cv} labels={labels} isVi={isVi} />
+    </article>
+  );
 }

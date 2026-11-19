@@ -1,7 +1,4 @@
-import {
-  Plus,
-  Trash2,
-} from 'lucide-react'
+import { Plus, Trash2, Upload, UserRound, X } from "lucide-react";
 
 import type {
   CVData,
@@ -9,56 +6,50 @@ import type {
   CVExperience,
   CVLabels,
   CVProject,
-} from '../../types/cv'
+  CVTemplateId,
+} from "../../types/cv";
 
-import {
-  Field,
-  TextField,
-  MonthField,
-} from '../common/Fields'
+import { Field, TextField, MonthField } from "../common/Fields";
 
 interface CVFormProps {
-  cv: CVData
-  labels: CVLabels
-  isVi: boolean
+  cv: CVData;
+  labels: CVLabels;
+  isVi: boolean;
+  handleAvatarUpload: (file: File) => void;
+  template: CVTemplateId;
 
-  update: <K extends keyof CVData>(
-    key: K,
-    value: CVData[K],
-  ) => void
+  update: <K extends keyof CVData>(key: K, value: CVData[K]) => void;
 
   updateExperience: (
     id: string,
     key: keyof CVExperience,
     value: string | string[],
-  ) => void
+  ) => void;
 
   updateProject: (
     id: string,
     key: keyof CVProject,
     value: string | string[],
-  ) => void
+  ) => void;
 
-  updateEducation: (
-    id: string,
-    key: keyof CVEducation,
-    value: string,
-  ) => void
+  updateEducation: (id: string, key: keyof CVEducation, value: string) => void;
 
-  addExperience: () => void
-  addProject: () => void
-  addEducation: () => void
+  addExperience: () => void;
+  addProject: () => void;
+  addEducation: () => void;
 
   removeItem: (
-    key: 'experiences' | 'projects' | 'education',
+    key: "experiences" | "projects" | "education",
     id: string,
-  ) => void
+  ) => void;
 }
 
 export default function CVForm({
   cv,
   labels,
   isVi,
+  template,
+  handleAvatarUpload,
   update,
   updateExperience,
   updateProject,
@@ -68,69 +59,138 @@ export default function CVForm({
   addEducation,
   removeItem,
 }: CVFormProps) {
+  const templatesWithAvatar: CVTemplateId[] = ["sidebar", "professional"];
+
+  const hasAvatar = templatesWithAvatar.includes(template);
+
   return (
     <section className="no-print min-w-0 space-y-6">
       {/* Thông tin cá nhân */}
       <div className="rounded-2xl border border-[#e0e4dc] bg-white p-6">
-        <h2 className="mb-5 text-lg font-semibold">
-          {labels.personal}
-        </h2>
+        <h2 className="mb-5 text-lg font-semibold">{labels.personal}</h2>
+
+        {hasAvatar && (
+          <div className="mb-5">
+            <label className="mb-3 block text-sm font-medium text-gray-700">
+              {isVi ? "Ảnh đại diện" : "Profile Picture"}
+            </label>
+
+            <div className="flex items-center gap-4">
+              <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-dashed border-gray-300 bg-gray-50">
+                {cv.avatar ? (
+                  <img
+                    src={cv.avatar}
+                    alt="Profile"
+                    className="h-full w-full object-cover"
+                  />
+                ) : (
+                  <UserRound size={36} className="text-gray-400" />
+                )}
+              </div>
+
+              <div className="space-y-2">
+                <label className="inline-flex cursor-pointer items-center gap-2 rounded-lg border px-4 py-2 text-sm hover:bg-gray-50">
+                  <Upload size={16} />
+                  {isVi ? "Chọn ảnh" : "Upload photo"}
+
+                  <input
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+
+                      if (!file) return;
+
+                      if (file.size > 5 * 1024 * 1024) {
+                        alert(
+                          isVi
+                            ? "Ảnh không được vượt quá 5MB"
+                            : "Image must be smaller than 5MB",
+                        );
+                        e.target.value = "";
+                        return;
+                      }
+
+                      handleAvatarUpload(file);
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+
+                {cv.avatar && (
+                  <button
+                    type="button"
+                    onClick={() => update("avatar", "")}
+                    className="block text-sm text-red-500"
+                  >
+                    {isVi ? "Xóa ảnh" : "Remove photo"}
+                  </button>
+                )}
+
+                <p className="text-xs text-gray-400">
+                  JPG, PNG, WEBP · Max 5MB
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div className="space-y-4">
           <Field
             label={labels.name}
             value={cv.fullName}
-            onChange={(v) => update('fullName', v)}
+            onChange={(v) => update("fullName", v)}
           />
 
           <Field
             label={labels.email}
             value={cv.email}
-            onChange={(v) => update('email', v)}
+            onChange={(v) => update("email", v)}
           />
 
           <Field
             label={labels.phone}
             value={cv.phone}
-            onChange={(v) => update('phone', v)}
+            onChange={(v) => update("phone", v)}
           />
 
           <Field
             label={labels.address}
             value={cv.address}
-            onChange={(v) => update('address', v)}
+            onChange={(v) => update("address", v)}
           />
 
           <Field
             label={labels.linkedin}
             value={cv.linkedin}
-            onChange={(v) => update('linkedin', v)}
+            onChange={(v) => update("linkedin", v)}
           />
 
           <Field
             label={labels.github}
             value={cv.github}
-            onChange={(v) => update('github', v)}
+            onChange={(v) => update("github", v)}
           />
 
           <TextField
             label={labels.summary}
             value={cv.summary}
-            onChange={(v) => update('summary', v)}
+            onChange={(v) => update("summary", v)}
             placeholder={
               isVi
-                ? 'Tóm tắt kinh nghiệm và thế mạnh...'
-                : 'Summarize your experience and strengths...'
+                ? "Tóm tắt kinh nghiệm và thế mạnh..."
+                : "Summarize your experience and strengths..."
             }
           />
 
           <TextField
             label={labels.skills}
-            value={cv.skills.join('\n')}
-            onChange={(v) => update('skills', v.split(/\r?\n/))}
+            value={cv.skills.join("\n")}
+            onChange={(v) => update("skills", v.split(/\r?\n/))}
             hint={labels.skillsHint}
             rows={5}
-            placeholder={'Java\nSpring Boot\nSQL\nReact'}
+            placeholder={"Java\nSpring Boot\nSQL\nReact"}
           />
         </div>
       </div>
@@ -138,15 +198,9 @@ export default function CVForm({
       {/* Kinh nghiệm làm việc */}
       <div className="rounded-2xl border border-[#e0e4dc] bg-white p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">
-            {labels.experiences}
-          </h2>
+          <h2 className="text-lg font-semibold">{labels.experiences}</h2>
 
-          <button
-            type="button"
-            onClick={addExperience}
-            className="cv-add"
-          >
+          <button type="button" onClick={addExperience} className="cv-add">
             <Plus size={16} />
             {labels.add}
           </button>
@@ -161,9 +215,7 @@ export default function CVForm({
 
               <button
                 type="button"
-                onClick={() =>
-                  removeItem('experiences', item.id)
-                }
+                onClick={() => removeItem("experiences", item.id)}
                 className="cv-remove"
               >
                 <Trash2 size={15} />
@@ -175,17 +227,13 @@ export default function CVForm({
               <Field
                 label={labels.company}
                 value={item.company}
-                onChange={(v) =>
-                  updateExperience(item.id, 'company', v)
-                }
+                onChange={(v) => updateExperience(item.id, "company", v)}
               />
 
               <Field
                 label={labels.position}
                 value={item.position}
-                onChange={(v) =>
-                  updateExperience(item.id, 'position', v)
-                }
+                onChange={(v) => updateExperience(item.id, "position", v)}
               />
 
               <div className="grid grid-cols-2 gap-3">
@@ -193,9 +241,7 @@ export default function CVForm({
                   label={labels.startDate}
                   value={item.startDate}
                   currentLabel={labels.current}
-                  onChange={(v) =>
-                    updateExperience(item.id, 'startDate', v)
-                  }
+                  onChange={(v) => updateExperience(item.id, "startDate", v)}
                 />
 
                 <MonthField
@@ -203,28 +249,22 @@ export default function CVForm({
                   value={item.endDate}
                   currentLabel={labels.current}
                   allowCurrent
-                  onChange={(v) =>
-                    updateExperience(item.id, 'endDate', v)
-                  }
+                  onChange={(v) => updateExperience(item.id, "endDate", v)}
                 />
               </div>
 
               <TextField
                 label={labels.description}
-                value={item.description.join('\n')}
+                value={item.description.join("\n")}
                 onChange={(v) =>
-                  updateExperience(
-                    item.id,
-                    'description',
-                    v.split('\n'),
-                  )
+                  updateExperience(item.id, "description", v.split("\n"))
                 }
                 hint={labels.descriptionHint}
                 rows={5}
                 placeholder={
                   isVi
-                    ? '- Phát triển API bằng Spring Boot\n- Làm việc với SQL'
-                    : '- Developed APIs with Spring Boot\n- Worked with SQL'
+                    ? "- Phát triển API bằng Spring Boot\n- Làm việc với SQL"
+                    : "- Developed APIs with Spring Boot\n- Worked with SQL"
                 }
               />
             </div>
@@ -235,15 +275,9 @@ export default function CVForm({
       {/* Dự án */}
       <div className="rounded-2xl border border-[#e0e4dc] bg-white p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">
-            {labels.projects}
-          </h2>
+          <h2 className="text-lg font-semibold">{labels.projects}</h2>
 
-          <button
-            type="button"
-            onClick={addProject}
-            className="cv-add"
-          >
+          <button type="button" onClick={addProject} className="cv-add">
             <Plus size={16} />
             {labels.add}
           </button>
@@ -258,7 +292,7 @@ export default function CVForm({
 
               <button
                 type="button"
-                onClick={() => removeItem('projects', item.id)}
+                onClick={() => removeItem("projects", item.id)}
                 className="cv-remove"
               >
                 <Trash2 size={15} />
@@ -270,17 +304,13 @@ export default function CVForm({
               <Field
                 label={labels.projectName}
                 value={item.name}
-                onChange={(v) =>
-                  updateProject(item.id, 'name', v)
-                }
+                onChange={(v) => updateProject(item.id, "name", v)}
               />
 
               <Field
                 label={labels.role}
                 value={item.role}
-                onChange={(v) =>
-                  updateProject(item.id, 'role', v)
-                }
+                onChange={(v) => updateProject(item.id, "role", v)}
               />
 
               <div className="grid grid-cols-2 gap-3">
@@ -288,9 +318,7 @@ export default function CVForm({
                   label={labels.startDate}
                   value={item.startDate}
                   currentLabel={labels.current}
-                  onChange={(v) =>
-                    updateProject(item.id, 'startDate', v)
-                  }
+                  onChange={(v) => updateProject(item.id, "startDate", v)}
                 />
 
                 <MonthField
@@ -298,44 +326,34 @@ export default function CVForm({
                   value={item.endDate}
                   currentLabel={labels.current}
                   allowCurrent
-                  onChange={(v) =>
-                    updateProject(item.id, 'endDate', v)
-                  }
+                  onChange={(v) => updateProject(item.id, "endDate", v)}
                 />
               </div>
 
               <TextField
                 label={labels.description}
-                value={item.description.join('\n')}
+                value={item.description.join("\n")}
                 onChange={(v) =>
-                  updateProject(
-                    item.id,
-                    'description',
-                    v.split('\n'),
-                  )
+                  updateProject(item.id, "description", v.split("\n"))
                 }
                 hint={labels.descriptionHint}
                 rows={5}
                 placeholder={
                   isVi
-                    ? '- Xây dựng giao diện bằng React\n- Thiết kế API bằng Spring Boot'
-                    : '- Built the UI with React\n- Designed APIs with Spring Boot'
+                    ? "- Xây dựng giao diện bằng React\n- Thiết kế API bằng Spring Boot"
+                    : "- Built the UI with React\n- Designed APIs with Spring Boot"
                 }
               />
 
               <TextField
                 label={labels.technologies}
-                value={item.technologies.join('\n')}
+                value={item.technologies.join("\n")}
                 onChange={(v) =>
-                  updateProject(
-                    item.id,
-                    'technologies',
-                    v.split('\n'),
-                  )
+                  updateProject(item.id, "technologies", v.split("\n"))
                 }
                 hint={labels.technologiesHint}
                 rows={3}
-                placeholder={'React\nTypeScript\nPostgreSQL'}
+                placeholder={"React\nTypeScript\nPostgreSQL"}
               />
             </div>
           </div>
@@ -345,15 +363,9 @@ export default function CVForm({
       {/* Học vấn */}
       <div className="rounded-2xl border border-[#e0e4dc] bg-white p-6">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <h2 className="text-lg font-semibold">
-            {labels.education}
-          </h2>
+          <h2 className="text-lg font-semibold">{labels.education}</h2>
 
-          <button
-            type="button"
-            onClick={addEducation}
-            className="cv-add"
-          >
+          <button type="button" onClick={addEducation} className="cv-add">
             <Plus size={16} />
             {labels.add}
           </button>
@@ -368,7 +380,7 @@ export default function CVForm({
 
               <button
                 type="button"
-                onClick={() => removeItem('education', item.id)}
+                onClick={() => removeItem("education", item.id)}
                 className="cv-remove"
               >
                 <Trash2 size={15} />
@@ -380,17 +392,13 @@ export default function CVForm({
               <Field
                 label={labels.school}
                 value={item.school}
-                onChange={(v) =>
-                  updateEducation(item.id, 'school', v)
-                }
+                onChange={(v) => updateEducation(item.id, "school", v)}
               />
 
               <Field
                 label={labels.degree}
                 value={item.degree}
-                onChange={(v) =>
-                  updateEducation(item.id, 'degree', v)
-                }
+                onChange={(v) => updateEducation(item.id, "degree", v)}
               />
 
               <div className="grid grid-cols-2 gap-3">
@@ -398,9 +406,7 @@ export default function CVForm({
                   label={labels.startDate}
                   value={item.startDate}
                   currentLabel={labels.current}
-                  onChange={(v) =>
-                    updateEducation(item.id, 'startDate', v)
-                  }
+                  onChange={(v) => updateEducation(item.id, "startDate", v)}
                 />
 
                 <MonthField
@@ -408,18 +414,14 @@ export default function CVForm({
                   value={item.endDate}
                   currentLabel={labels.current}
                   allowCurrent
-                  onChange={(v) =>
-                    updateEducation(item.id, 'endDate', v)
-                  }
+                  onChange={(v) => updateEducation(item.id, "endDate", v)}
                 />
               </div>
 
               <TextField
                 label={labels.description}
                 value={item.description}
-                onChange={(v) =>
-                  updateEducation(item.id, 'description', v)
-                }
+                onChange={(v) => updateEducation(item.id, "description", v)}
                 hint={labels.descriptionHint}
                 rows={4}
               />
@@ -428,5 +430,5 @@ export default function CVForm({
         ))}
       </div>
     </section>
-  )
+  );
 }

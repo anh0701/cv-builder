@@ -10,7 +10,6 @@
   outline: none;
 }
 
-
 .cv-input:focus {
   border-color: #52745b;
   box-shadow: 0 0 0 2px rgb(82 116 91 / 12%);
@@ -201,7 +200,7 @@
   break-inside: avoid;
 }
 
-.cv-md-bullet>span:last-child {
+.cv-md-bullet > span:last-child {
   min-width: 0;
   flex: 1;
 }
@@ -320,58 +319,58 @@
 
 /* Shared contact layout */
 .cv-contact-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 18px;
-    min-width: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  min-width: 0;
 }
 
 .cv-contact-item {
-    min-width: 0;
-    overflow-wrap: anywhere;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .cv-contact-item-label {
-    display: none;
+  display: none;
 }
 
 .cv-contact-item-value {
-    overflow-wrap: anywhere;
-    word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .cv-contact-item a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .cv-contact-list {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 4px 0;
-    min-width: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 4px 0;
+  min-width: 0;
 }
 
 .cv-contact-item {
-    display: inline-flex;
-    align-items: baseline;
-    min-width: 0;
-    overflow-wrap: anywhere;
+  display: inline-flex;
+  align-items: baseline;
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 
 .cv-contact-item + .cv-contact-item::before {
-    content: "•";
-    margin: 0 8px;
-    color: #64748b;
+  content: "•";
+  margin: 0 8px;
+  color: #64748b;
 }
 
 .cv-contact-item-label {
-    display: none;
+  display: none;
 }
 
 .cv-contact-item-value {
-    overflow-wrap: anywhere;
-    word-break: break-word;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 /* css print */
@@ -382,7 +381,6 @@
 }
 
 @media print {
-
   html,
   body,
   #root {

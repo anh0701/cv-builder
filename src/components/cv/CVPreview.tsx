@@ -1,19 +1,15 @@
-import type {
-  CVData,
-  CVLabels,
-  CVTemplateId,
-} from '../../types/cv'
+import type { CVData, CVLabels, CVTemplateId } from "../../types/cv";
 
-import ClassicTemplate from './templates/ClassicTemplate'
-import ModernTemplate from './templates/ModernTemplate'
-import ProfessionalTemplate from './templates/ProfessionalTemplate'
+import ClassicTemplate from "./templates/ClassicTemplate";
+import ModernTemplate from "./templates/ModernTemplate";
+import ProfessionalTemplate from "./templates/ProfessionalTemplate";
 
 interface CVPreviewProps {
-  cv: CVData
-  labels: CVLabels
-  isVi: boolean
-  template: CVTemplateId
-  setTemplate: (template: CVTemplateId) => void
+  cv: CVData;
+  labels: CVLabels;
+  isVi: boolean;
+  template: CVTemplateId;
+  setTemplate: (template: CVTemplateId) => void;
 }
 
 export default function CVPreview({
@@ -24,19 +20,17 @@ export default function CVPreview({
   setTemplate,
 }: CVPreviewProps) {
   const Template =
-  template === 'professional'
-    ? ProfessionalTemplate
-    : template === 'modern'
-      ? ModernTemplate
-      : ClassicTemplate
+    template === "professional"
+      ? ProfessionalTemplate
+      : template === "modern"
+        ? ModernTemplate
+        : ClassicTemplate;
 
   return (
     <section className="preview-shell min-w-0">
       {/* Thanh điều khiển luôn ở phía trên */}
       <div className="preview-toolbar no-print mb-4 flex flex-wrap items-center justify-between gap-3">
-        <h2 className="text-lg font-semibold">
-          {labels.preview}
-        </h2>
+        <h2 className="text-lg font-semibold">{labels.preview}</h2>
 
         <div className="flex items-center gap-2">
           <label htmlFor="cv-template" className="text-sm">
@@ -60,18 +54,14 @@ export default function CVPreview({
 
       {/* Chỉ vùng này cuộn */}
       <div className="preview-scroll-area">
-        <Template
-          cv={cv}
-          labels={labels}
-          isVi={isVi}
-        />
+        <Template cv={cv} labels={labels} isVi={isVi} />
 
         <p className="no-print mt-4 text-sm text-gray-500">
           {isVi
-            ? 'Khi xuất PDF, chọn “Save to PDF” trong hộp thoại in của trình duyệt.'
-            : 'When exporting, choose “Save to PDF” in the browser print dialog.'}
+            ? "Khi xuất PDF, chọn “Save to PDF” trong hộp thoại in của trình duyệt."
+            : "When exporting, choose “Save to PDF” in the browser print dialog."}
         </p>
       </div>
     </section>
-  )
+  );
 }

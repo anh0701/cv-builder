@@ -1,10 +1,10 @@
-import { useState } from 'react'
+import { useState } from "react";
 
 import {
   Download,
   Languages,
   // Languages,
-} from 'lucide-react'
+} from "lucide-react";
 
 import type {
   CVData,
@@ -12,33 +12,29 @@ import type {
   CVExperience,
   CVProject,
   CVTemplateId,
-} from './types/cv'
+} from "./types/cv";
 
-import { initialCV } from './data/initialCV'
-import { createId } from './utils/cvDate'
+import { initialCV } from "./data/initialCV";
+import { createId } from "./utils/cvDate";
 
-import CVForm from './components/cv/CVForm'
-import CVPreview from './components/cv/CVPreview'
+import CVForm from "./components/cv/CVForm";
+import CVPreview from "./components/cv/CVPreview";
 
-import './styles/cv.css'
-import { englishLabels, vietnameseLabels } from './data/label'
+import "./styles/cv.css";
+import { englishLabels, vietnameseLabels } from "./data/label";
 
 export default function App() {
-  const [cv, setCV] = useState<CVData>(initialCV)
-  const [template, setTemplate] =
-    useState<CVTemplateId>('classic')
+  const [cv, setCV] = useState<CVData>(initialCV);
+  const [template, setTemplate] = useState<CVTemplateId>("classic");
 
-  const isVi = cv.language === 'vi'
-  const labels = isVi ? vietnameseLabels : englishLabels
+  const isVi = cv.language === "vi";
+  const labels = isVi ? vietnameseLabels : englishLabels;
 
-  function update<K extends keyof CVData>(
-    key: K,
-    value: CVData[K],
-  ) {
+  function update<K extends keyof CVData>(key: K, value: CVData[K]) {
     setCV((current) => ({
       ...current,
       [key]: value,
-    }))
+    }));
   }
 
   function updateExperience(
@@ -49,11 +45,9 @@ export default function App() {
     setCV((current) => ({
       ...current,
       experiences: current.experiences.map((item) =>
-        item.id === id
-          ? { ...item, [key]: value }
-          : item,
+        item.id === id ? { ...item, [key]: value } : item,
       ),
-    }))
+    }));
   }
 
   function updateProject(
@@ -64,26 +58,18 @@ export default function App() {
     setCV((current) => ({
       ...current,
       projects: current.projects.map((item) =>
-        item.id === id
-          ? { ...item, [key]: value }
-          : item,
+        item.id === id ? { ...item, [key]: value } : item,
       ),
-    }))
+    }));
   }
 
-  function updateEducation(
-    id: string,
-    key: keyof CVEducation,
-    value: string,
-  ) {
+  function updateEducation(id: string, key: keyof CVEducation, value: string) {
     setCV((current) => ({
       ...current,
       education: current.education.map((item) =>
-        item.id === id
-          ? { ...item, [key]: value }
-          : item,
+        item.id === id ? { ...item, [key]: value } : item,
       ),
-    }))
+    }));
   }
 
   function addExperience() {
@@ -93,14 +79,14 @@ export default function App() {
         ...current.experiences,
         {
           id: createId(),
-          company: '',
-          position: '',
-          startDate: '',
-          endDate: '',
+          company: "",
+          position: "",
+          startDate: "",
+          endDate: "",
           description: [],
         },
       ],
-    }))
+    }));
   }
 
   function addProject() {
@@ -110,15 +96,15 @@ export default function App() {
         ...current.projects,
         {
           id: createId(),
-          name: '',
-          role: '',
-          startDate: '',
-          endDate: '',
+          name: "",
+          role: "",
+          startDate: "",
+          endDate: "",
           description: [],
           technologies: [],
         },
       ],
-    }))
+    }));
   }
 
   function addEducation() {
@@ -128,28 +114,40 @@ export default function App() {
         ...current.education,
         {
           id: createId(),
-          school: '',
-          degree: '',
-          startDate: '',
-          endDate: '',
-          description: '',
+          school: "",
+          degree: "",
+          startDate: "",
+          endDate: "",
+          description: "",
         },
       ],
-    }))
+    }));
   }
 
   function removeItem(
-    key: 'experiences' | 'projects' | 'education',
+    key: "experiences" | "projects" | "education",
     id: string,
   ) {
     setCV((current) => ({
       ...current,
       [key]: current[key].filter((item) => item.id !== id),
-    }))
+    }));
   }
 
   function exportPDF() {
-    window.print()
+    window.print();
+  }
+
+  function handleAvatarUpload(file: File) {
+    const reader = new FileReader();
+
+    reader.onloadend = () => {
+      if (typeof reader.result === "string") {
+        update("avatar", reader.result);
+      }
+    };
+
+    reader.readAsDataURL(file);
   }
 
   return (
@@ -157,21 +155,15 @@ export default function App() {
       <header className="no-print border-b border-[#dce2d8] bg-white">
         <div className="mx-auto flex max-w-[1500px] items-center justify-between gap-4 px-6 py-5">
           <div>
-            <h1 className="text-2xl font-bold">
-              CV Builder
-            </h1>
+            <h1 className="text-2xl font-bold">CV Builder</h1>
 
-            <p className="mt-1 text-sm text-gray-500">
-              {labels.subtitle}
-            </p>
+            <p className="mt-1 text-sm text-gray-500">{labels.subtitle}</p>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() =>
-                update('language', isVi ? 'en' : 'vi')
-              }
+              onClick={() => update("language", isVi ? "en" : "vi")}
               className="flex items-center gap-2 rounded-lg border px-3 py-2 hover:bg-gray-50"
             >
               <Languages size={18} />
@@ -196,6 +188,8 @@ export default function App() {
             cv={cv}
             labels={labels}
             isVi={isVi}
+            template={template}
+            handleAvatarUpload={handleAvatarUpload}
             update={update}
             updateExperience={updateExperience}
             updateProject={updateProject}
@@ -218,5 +212,5 @@ export default function App() {
         </div>
       </div>
     </main>
-  )
+  );
 }

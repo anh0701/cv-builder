@@ -1,23 +1,20 @@
-import { useEffect, useState } from 'react'
-import {
-  getCurrentMonth,
-  toMonthInput,
-} from '../../utils/cvDate'
+import { useEffect, useState } from "react";
+import { getCurrentMonth, toMonthInput } from "../../utils/cvDate";
 
 interface FieldProps {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
-  type?: string
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  type?: string;
 }
 
 export function Field({
   label,
   value,
   onChange,
-  placeholder = '',
-  type = 'text',
+  placeholder = "",
+  type = "text",
 }: FieldProps) {
   return (
     <label className="block text-sm font-medium text-[#34483a]">
@@ -30,16 +27,16 @@ export function Field({
         className="cv-input"
       />
     </label>
-  )
+  );
 }
 
 interface TextFieldProps {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  rows?: number
-  placeholder?: string
-  hint?: string
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  rows?: number;
+  placeholder?: string;
+  hint?: string;
 }
 
 export function TextField({
@@ -47,7 +44,7 @@ export function TextField({
   value,
   onChange,
   rows = 4,
-  placeholder = '',
+  placeholder = "",
   hint,
 }: TextFieldProps) {
   return (
@@ -68,15 +65,15 @@ export function TextField({
         className="cv-input resize-y"
       />
     </label>
-  )
+  );
 }
 
 interface MonthFieldProps {
-  label: string
-  value: string
-  onChange: (value: string) => void
-  currentLabel: string
-  allowCurrent?: boolean
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  currentLabel: string;
+  allowCurrent?: boolean;
 }
 
 export function MonthField({
@@ -86,42 +83,42 @@ export function MonthField({
   currentLabel,
   allowCurrent = false,
 }: MonthFieldProps) {
-  const isCurrent = value === 'current'
-  const normalizedValue = isCurrent ? '' : toMonthInput(value)
-  const [savedYear, savedMonth] = normalizedValue.split('-')
+  const isCurrent = value === "current";
+  const normalizedValue = isCurrent ? "" : toMonthInput(value);
+  const [savedYear, savedMonth] = normalizedValue.split("-");
 
-  const [month, setMonth] = useState(savedMonth ?? '')
-  const [year, setYear] = useState(savedYear ?? '')
+  const [month, setMonth] = useState(savedMonth ?? "");
+  const [year, setYear] = useState(savedYear ?? "");
 
   useEffect(() => {
-    setMonth(savedMonth ?? '')
-    setYear(savedYear ?? '')
-  }, [savedMonth, savedYear])
+    setMonth(savedMonth ?? "");
+    setYear(savedYear ?? "");
+  }, [savedMonth, savedYear]);
 
-  const currentYear = Number(getCurrentMonth().slice(0, 4))
-  const selectedYear = Number(year)
+  const currentYear = Number(getCurrentMonth().slice(0, 4));
+  const selectedYear = Number(year);
   const years = Array.from(
     { length: currentYear - 1989 },
     (_, index) => currentYear - index,
-  )
+  );
 
   function selectMonth(nextMonth: string) {
-    setMonth(nextMonth)
+    setMonth(nextMonth);
 
     if (nextMonth && year) {
-      onChange(`${year}-${nextMonth.padStart(2, '0')}`)
+      onChange(`${year}-${nextMonth.padStart(2, "0")}`);
     } else {
-      onChange('')
+      onChange("");
     }
   }
 
   function selectYear(nextYear: string) {
-    setYear(nextYear)
+    setYear(nextYear);
 
     if (month && nextYear) {
-      onChange(`${nextYear}-${month.padStart(2, '0')}`)
+      onChange(`${nextYear}-${month.padStart(2, "0")}`);
     } else {
-      onChange('')
+      onChange("");
     }
   }
 
@@ -139,12 +136,12 @@ export function MonthField({
         >
           <option value="">Select month</option>
           {Array.from({ length: 12 }, (_, index) => {
-            const number = String(index + 1).padStart(2, '0')
+            const number = String(index + 1).padStart(2, "0");
             return (
               <option key={number} value={number}>
                 {number}
               </option>
-            )
+            );
           })}
         </select>
 
@@ -161,9 +158,7 @@ export function MonthField({
               {itemYear}
             </option>
           ))}
-          {year && selectedYear < 1990 && (
-            <option value={year}>{year}</option>
-          )}
+          {year && selectedYear < 1990 && <option value={year}>{year}</option>}
         </select>
       </div>
 
@@ -174,11 +169,11 @@ export function MonthField({
             checked={isCurrent}
             onChange={(event) => {
               if (event.target.checked) {
-                onChange('current')
+                onChange("current");
               } else {
-                onChange('')
-                setMonth('')
-                setYear('')
+                onChange("");
+                setMonth("");
+                setYear("");
               }
             }}
           />
@@ -186,5 +181,5 @@ export function MonthField({
         </label>
       )}
     </div>
-  )
+  );
 }
